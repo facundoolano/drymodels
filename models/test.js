@@ -32,7 +32,7 @@ function runApp(){
         name: String,
         code: Number,
         professorName: String,
-        vacancies: Number
+        vacances: Number
     });
 
     var inscriptionSchema = mongoose.Schema({
