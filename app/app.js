@@ -1,13 +1,11 @@
-/**
- * Module dependencies.
- */
-
 var express = require('express'),
 http = require('http'),
-path = require('path');
+path = require('path'),
+mongoose = require('mongoose'),
 routes = require('./routes');
 
 var app = express();
+mongoose.connect('mongodb://localhost/test');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -24,7 +22,14 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//Routes
 app.get('/', routes.index);
+app.post('/signin', routes.signIn);
+
+app.get('/courses', routes.courses);
+app.post('/courses', routes.addCourse);
+app.post('/students', routes.signUp);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

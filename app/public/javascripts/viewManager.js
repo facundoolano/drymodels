@@ -12,41 +12,48 @@ function homeView() {
 }
 
 function signUp() {
-	coursesView();
+	$.post('/students', $('#signUpForm').serialize(),
+		function(data) {
+			if (data.success) {
+				//TODO store user data
+				coursesView();
+			} else {
+				$('#messages').text(data.msg);
+			}
+		});
 	return false;
 }
 
 function signIn() {
-	coursesView();
+	$.post('/signin', $('#signInForm').serialize(),
+		function(data) {
+			if (data.success) {
+				//TODO store user data
+				coursesView();
+			} else {
+				$('#messages').text(data.msg);
+			}
+		});
 	return false;
 }
 
 function addCourseView(){
 	load('#add-course');
+	$('#addCourseForm').submit(addCourse);
+}
+
+function addCourse(){
+	$.post('/courses', $('#addCourseForm').serialize(),
+		homeView);
+	return false;
 }
 
 function coursesView(){
-	//TODO replace with backend models
-	var course1 = {
-		name: "Algoritmos y Programacion I",
-        code: 7541,
-        professorName: "Mandrafina",
-        vacances: 40,
-        remaining: 23
-    };
-	var course2 = {
-		name: "Arquitectura de Software",
-        code: 7573,
-        professorName: "Diez",
-        vacances: 20,
-        remaining: 10
-	};
-	var courses = [course1, course2];
-
-	load('#course-list', {courses: courses});
-
+	$.get('/courses', function(data) {
+		load('#course-list', {courses: data});
+	});
 }
 
 function takeCourse() {
-
+	//FIXME should only reload the modified course
 }
