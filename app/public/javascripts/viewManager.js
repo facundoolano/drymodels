@@ -4,7 +4,7 @@ function load(templateSelector, context){
 	$('#content').html(template(context));
 }
 
-//TODO change to backbone
+//TODO change views and methods to backbone
 function homeView() {
 	$('#content').html($('#index-template').html());
 	$('#signUpForm').submit(signUp);
@@ -15,7 +15,6 @@ function signUp() {
 	$.post('/students', $('#signUpForm').serialize(),
 		function(data) {
 			if (data.success) {
-				//TODO store user data
 				coursesView();
 			} else {
 				$('#messages').text(data.msg);
@@ -28,7 +27,6 @@ function signIn() {
 	$.post('/signin', $('#signInForm').serialize(),
 		function(data) {
 			if (data.success) {
-				//TODO store user data
 				coursesView();
 			} else {
 				$('#messages').text(data.msg);
@@ -50,10 +48,25 @@ function addCourse(){
 
 function coursesView(){
 	$.get('/courses', function(data) {
+		$.each(data,function(index, value){
+			//FIXME patching by hand what should be obtained from a model method
+			var subscriptions = 0;
+			if (value.students !== null) {
+				subscriptions = value.students.length;
+			}
+			value.remaining = value.vacancies - subscriptions;
+		});
 		load('#course-list', {courses: data});
 	});
 }
 
-function takeCourse() {
-	//FIXME should only reload the modified course
+function subscribe(courseCode) {
+	$.post('/subscription', {courseCode:courseCode}, function(data){
+		if (data.success) {
+			//FIXME should only reload the modified course
+			coursesView();
+		} else {
+			$('#messages').text(data.msg);
+		}
+	});
 }

@@ -14,6 +14,8 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({secret: 'hushhush'}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,6 +31,7 @@ app.post('/signin', routes.signIn);
 app.get('/courses', routes.courses);
 app.post('/courses', routes.addCourse);
 app.post('/students', routes.signUp);
+app.post('/subscription', routes.subscribe);
 
 
 http.createServer(app).listen(app.get('port'), function(){

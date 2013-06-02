@@ -19,23 +19,20 @@ studentSchema.methods.getFullName = function() {
     return this.firstName + ' ' + this.lastName;
 };
 
-
 var courseSchema = mongoose.Schema({
     name: String,
     code: Number,
     professorName: String,
-    vacancies: Number
+    vacancies: Number,
+    students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }]
 });
 
-var subscriptionSchema = mongoose.Schema({
-    studentId: Number,
-    courseCode: Number
-});
-
+courseSchema.methods.remaining = function() {
+    return this.vacancies - this.students.length;
+};
 
 exports.Student = mongoose.model('Student', studentSchema);
 exports.Course = mongoose.model('Course', courseSchema);
-exports.Subscription = mongoose.model('Subscription', subscriptionSchema);
 
 // var facundo = new Student({
 //     firstName: "Facundo",

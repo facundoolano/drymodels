@@ -32,7 +32,7 @@
 				<p>{{ this.code }} - {{ this.name }}</p>
 				<p>{{ this.professorName }}</p>
 				<p>Vacancies: {{ this.remaining }} of {{ this.vacancies }}</p>
-				<input type="button" onclick="alert('{{ this.code }}');" value="Register"/>
+				<input type="button" onclick="subscribe({{ this.code }});" value="Subscribe"/>
 			</li>
 		{{/each}}
 		</ul>
