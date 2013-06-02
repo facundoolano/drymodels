@@ -5,6 +5,7 @@
 var express = require('express'),
 http = require('http'),
 path = require('path');
+routes = require('./routes');
 
 var app = express();
 
@@ -23,9 +24,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', function(req, res){
-  res.sendfile(__dirname + '/public/index.html');
-});
+app.get('/', routes.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -1,8 +1,3 @@
-$(function(){
-	homeView();
-});
-
-
 function load(templateSelector, context){
 	var source   = $(templateSelector).html();
 	var template = Handlebars.compile(source);
