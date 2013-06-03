@@ -40,7 +40,7 @@ exports.signIn = function(req, res) {
 			error(res, "The given id is not registered.");
 		} else {
 			req.session.user = results[0];
-			res.json({success:true});
+			res.json({success:true, user: results[0]});
 		}
 	});
 };
@@ -53,7 +53,7 @@ exports.signUp = function(req, res) {
 			error(res, "Error saving student");
 		}
 		req.session.user = model;
-		res.json({success:true});
+		res.json({success:true, user:model});
 	});
 };
 
