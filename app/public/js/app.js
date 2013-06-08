@@ -28,7 +28,7 @@ var Workspace = Backbone.Router.extend({
     },
 
     courses: function() {
-
+		this.switchView(app.CoursesView);
     },
 
     home: function() {

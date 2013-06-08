@@ -33,8 +33,25 @@ app.AddCourseView = BaseView.extend({
 });
 
 app.CoursesView = BaseView.extend({
+	template: '#course-list',
+
+	initialize: function() {
+		this.courses = new app.CourseList(); //should live outside the view?
+		this.listenTo(this.courses, 'reset', this.render);
+		this.courses.fetch({reset: true});
+	},
+
+	render: function() {
+		var source = $(this.template).html();
+		var template = Handlebars.compile(source);
+		this.$el.html(template({courses: this.courses.toJSON()})); //FIXME
+	},
+
 	subscribe: function() {}
+
 });
+
+//This might not be needed
 
 //Individual course view
 app.CourseView = Backbone.View.extend({
