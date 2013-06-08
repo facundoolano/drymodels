@@ -33,13 +33,3 @@ courseSchema.methods.remaining = function() {
 
 exports.Student = mongoose.model('Student', studentSchema);
 exports.Course = mongoose.model('Course', courseSchema);
-
-// var facundo = new Student({
-//     firstName: "Facundo",
-//     lastName: "Olano",
-//     email: "facundo.olano@gmail.com",
-//     id: 87712
-//     });
-
-// console.log("hash for: " + facundo.getFullName());
-// console.log(facundo.getAvatarUrl());

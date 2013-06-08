@@ -1,10 +1,67 @@
+var app = app || {};
+
+/* Base view for rendering inside container. */
+var BaseView = Backbone.View.extend({
+	el: '#content',
+
+	initialize: function() {
+		this.render();
+	},
+
+	render: function() {
+		this.$el.html($(this.template).html());
+	},
+
+	//Redefined so it doenst remove the container element
+	remove: function() {
+		this.undelegateEvents();
+		this.$el.empty();
+		this.stopListening();
+		return this;
+	}
+});
+
+app.HomeView = BaseView.extend({
+	template: '#index-template',
+	signUp: function() {},
+	signIn: function() {}
+});
+
+app.AddCourseView = BaseView.extend({
+	template: '#add-course',
+	addCourse: function() {}
+});
+
+app.CoursesView = BaseView.extend({
+	subscribe: function() {}
+});
+
+//Individual course view
+app.CourseView = Backbone.View.extend({
+	subscribe: function() {}
+});
+
+//Individual subscribed student view
+app.StudentView = Backbone.View.extend({
+	subscribe: function() {}
+});
+
+//Indivdiual course the user has subscribed
+app.MyCourseView = Backbone.View.extend({
+	subscribe: function() {}
+});
+
+
+
+
+/********* OLD VIEWS ******************/
+/*
 function load(templateSelector, context){
 	var source   = $(templateSelector).html();
 	var template = Handlebars.compile(source);
 	$('#content').html(template(context));
 }
 
-//TODO change views and methods to backbone
 function homeView() {
 	$('#content').html($('#index-template').html());
 	$('#signUpForm').submit(signUp);
@@ -78,4 +135,4 @@ function subscribe(courseCode) {
 			$('#messages').text(data.msg);
 		}
 	});
-}
+}*/
