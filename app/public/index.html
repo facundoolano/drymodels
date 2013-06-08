@@ -24,7 +24,10 @@
 	  	</form>
 	</script>
 	<script id="course-list" type="text/x-handlebars-template">
+		<h2>User</h2>
+		<p>Hi, {{ user.firstName }}. You are currently subscribed to: TODO</p>
 		<h2>Open Courses</h2>
+	  	<a href="#add_course">Add course</a>
 		<ul>
 		{{#each courses}}
 			<li>
@@ -41,7 +44,6 @@
 			</li>
 		{{/each}}
 		</ul>
-	  	<p>Or go to the <a href="#add_course">add courses page</a>.</p>
 	</script>
 	<script id="add-course" type="text/x-handlebars-template">
 		<h2>Add Course</h2>

@@ -39,7 +39,7 @@ exports.signIn = function(req, res) {
 		} else if (results.length === 0 ) {
 			error(res, "The given id is not registered.");
 		} else {
-			req.session.user = results[0];
+			req.session.user = results[0]; //FIXME remove session to be restful
 			res.json({success:true, user: results[0]});
 		}
 	});
@@ -52,7 +52,7 @@ exports.signUp = function(req, res) {
 		if (err){
 			error(res, "Error saving student");
 		}
-		req.session.user = model;
+		req.session.user = model; //FIXME remove session to be restful
 		res.json({success:true, user:model});
 	});
 };

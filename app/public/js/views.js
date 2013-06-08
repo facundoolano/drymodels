@@ -12,7 +12,7 @@ var BaseView = Backbone.View.extend({
 		this.$el.html($(this.template).html());
 	},
 
-	//Redefined so it doenst remove the container element
+	//Redefined so it doesn't remove the container element
 	remove: function() {
 		this.undelegateEvents();
 		this.$el.empty();
@@ -31,16 +31,25 @@ app.HomeView = BaseView.extend({
 
 	signUp: function(e) {
 		e.preventDefault();
-		//FIXME too jquery like
+		//FIXME too jquery like -> use student post
+		$.post('/students', $('#signUpForm').serialize(),
+		function(data) {
+			if (data.success) {
+				app.user = new app.Student(data.user);
+				window.location = '#courses';
+			} else {
+				$('#messages').text(data.msg);
+			}
+		});
 	},
 
 	signIn: function(e) {
 		e.preventDefault();
-		//FIXME too jquery like
+		//FIXME too jquery like -> use student get
 		$.post('/signin', $('#signInForm').serialize(),
 		function(data) {
 			if (data.success) {
-				app.user = data.user;
+				app.user = new app.Student(data.user);
 				window.location = '#courses';
 			} else {
 				$('#messages').text(data.msg);
@@ -65,7 +74,11 @@ app.CoursesView = BaseView.extend({
 
 	render: function() {
 		//Should better have individual course views?
-		this.$el.html(this.template({courses: this.courses.toJSON()}));
+		console.log(app.user.toJSON().firstName);
+		this.$el.html(this.template({
+			courses: this.courses.toJSON(),
+			user: app.user.toJSON()
+		}));
 	},
 
 	subscribe: function() {}

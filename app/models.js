@@ -3,7 +3,7 @@ var crypto = require('crypto');
 var _s = require('underscore.string');
 
 var studentSchema = mongoose.Schema({
-    fristName: String,
+    firstName: String,
     lastName: String,
     id: Number,
     email: String
