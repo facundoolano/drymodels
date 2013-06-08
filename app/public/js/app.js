@@ -3,6 +3,8 @@ var app = app || {};
 $(function() {
 	app.TodoRouter = new Workspace();
 	Backbone.history.start();
+
+	app.courses = new app.CourseList();
 });
 
 

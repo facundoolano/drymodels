@@ -32,7 +32,7 @@ app.HomeView = BaseView.extend({
 	signUp: function(e) {
 		e.preventDefault();
 		//FIXME too jquery like
-		//FIXMR use student post
+		//FIXME use student post
 		$.post('/students', $('#signUpForm').serialize(),
 		function(data) {
 			if (data.success) {
@@ -62,23 +62,30 @@ app.HomeView = BaseView.extend({
 
 app.AddCourseView = BaseView.extend({
 	template: '#add-course',
-	addCourse: function() {}
+
+	events:{
+		'click #addCourseButton':'addCourse'
+	},
+
+	addCourse: function(e) {
+		e.preventDefault();
+		app.courses.create($('#addCourseForm').serializeObject());
+		window.location = '#courses';
+	}
 });
 
 app.CoursesView = BaseView.extend({
 	template: Handlebars.compile($('#course-list').html()),
 
 	initialize: function() {
-		this.courses = new app.CourseList(); //should live outside the view?
-		this.listenTo(this.courses, 'reset', this.render);
-		this.courses.fetch({reset: true});
+		this.listenTo(app.courses, 'reset', this.render);
+		app.courses.fetch({reset: true});
 	},
 
 	render: function() {
 		//Should better have individual course views?
-		console.log(app.user.toJSON().firstName);
 		this.$el.html(this.template({
-			courses: this.courses.toJSON(),
+			courses: app.courses.toJSON(),
 			user: app.user.toJSON()
 		}));
 	},
@@ -95,7 +102,7 @@ app.StudentView = Backbone.View.extend({
 });
 
 //Indivdiual course the user has subscribed
-app.MyCourseView = Backbone.View.extend({
+app.MyCoursesView = Backbone.View.extend({
 	subscribe: function() {}
 });
 
@@ -104,54 +111,6 @@ app.MyCourseView = Backbone.View.extend({
 
 /********* OLD VIEWS ******************/
 /*
-function load(templateSelector, context){
-	var source   = $(templateSelector).html();
-	var template = Handlebars.compile(source);
-	$('#content').html(template(context));
-}
-
-function homeView() {
-	$('#content').html($('#index-template').html());
-	$('#signUpForm').submit(signUp);
-	$('#signInForm').submit(signIn);
-}
-
-function signUp() {
-	$.post('/students', $('#signUpForm').serialize(),
-		function(data) {
-			if (data.success) {
-				$("body").data("foo", data.user);
-				coursesView();
-			} else {
-				$('#messages').text(data.msg);
-			}
-		});
-	return false;
-}
-
-function signIn() {
-	$.post('/signin', $('#signInForm').serialize(),
-		function(data) {
-			if (data.success) {
-				$("body").data("user", data.user);
-				coursesView();
-			} else {
-				$('#messages').text(data.msg);
-			}
-		});
-	return false;
-}
-
-function addCourseView(){
-	load('#add-course');
-	$('#addCourseForm').submit(addCourse);
-}
-
-function addCourse(){
-	$.post('/courses', $('#addCourseForm').serialize(),
-		homeView);
-	return false;
-}
 
 function coursesView(){
 	$.get('/courses', function(data) {
