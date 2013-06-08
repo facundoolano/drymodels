@@ -23,8 +23,30 @@ var BaseView = Backbone.View.extend({
 
 app.HomeView = BaseView.extend({
 	template: '#index-template',
-	signUp: function() {},
-	signIn: function() {}
+
+	events:{
+		'click #signUpButton':'signUp',
+		'click #signInButton':'signIn'
+	},
+
+	signUp: function(e) {
+		e.preventDefault();
+		//FIXME too jquery like
+	},
+
+	signIn: function(e) {
+		e.preventDefault();
+		//FIXME too jquery like
+		$.post('/signin', $('#signInForm').serialize(),
+		function(data) {
+			if (data.success) {
+				app.user = data.user;
+				window.location = '#courses';
+			} else {
+				$('#messages').text(data.msg);
+			}
+		});
+	}
 });
 
 app.AddCourseView = BaseView.extend({
@@ -33,7 +55,7 @@ app.AddCourseView = BaseView.extend({
 });
 
 app.CoursesView = BaseView.extend({
-	template: '#course-list',
+	template: Handlebars.compile($('#course-list').html()),
 
 	initialize: function() {
 		this.courses = new app.CourseList(); //should live outside the view?
@@ -42,21 +64,15 @@ app.CoursesView = BaseView.extend({
 	},
 
 	render: function() {
-		var source = $(this.template).html();
-		var template = Handlebars.compile(source);
-		this.$el.html(template({courses: this.courses.toJSON()})); //FIXME
+		//Should better have individual course views?
+		this.$el.html(this.template({courses: this.courses.toJSON()}));
 	},
 
 	subscribe: function() {}
 
 });
 
-//This might not be needed
-
-//Individual course view
-app.CourseView = Backbone.View.extend({
-	subscribe: function() {}
-});
+//These might not be needed
 
 //Individual subscribed student view
 app.StudentView = Backbone.View.extend({
