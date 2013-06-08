@@ -31,7 +31,8 @@ app.HomeView = BaseView.extend({
 
 	signUp: function(e) {
 		e.preventDefault();
-		//FIXME too jquery like -> use student post
+		//FIXME too jquery like
+		//FIXMR use student post
 		$.post('/students', $('#signUpForm').serialize(),
 		function(data) {
 			if (data.success) {
@@ -45,7 +46,8 @@ app.HomeView = BaseView.extend({
 
 	signIn: function(e) {
 		e.preventDefault();
-		//FIXME too jquery like -> use student get
+		//FIXME too jquery like
+		//FIXMR use student get
 		$.post('/signin', $('#signInForm').serialize(),
 		function(data) {
 			if (data.success) {

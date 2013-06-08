@@ -1,6 +1,8 @@
 var app = app || {};
 
 app.Student = Backbone.Model.extend({
+	urlRoot: '/students',
+
 	//FIXME duplicated from backend
 	getFullName : function() {
 
