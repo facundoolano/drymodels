@@ -83,9 +83,20 @@ app.CoursesView = BaseView.extend({
 	},
 
 	render: function() {
+
+		//converts to object extended with computed properties
+		var courses = app.courses.map(function(course) {
+			var obj = course.toJSON();
+			obj.remaining = course.remaining();
+			obj.canSubscribe = !course.isSubscribed(app.user);
+			console.log("asdasdasd");
+			console.log(obj);
+			return obj;
+		});
+
 		//Should better have individual course views?
 		this.$el.html(this.template({
-			courses: app.courses.toJSON(),
+			courses: courses,
 			user: app.user.toJSON()
 		}));
 	},

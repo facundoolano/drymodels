@@ -15,8 +15,16 @@ app.Student = Backbone.Model.extend({
 });
 
 app.Course = Backbone.Model.extend({
-	//FIXME duplicated from backend
 	remaining: function() {
-		return this.vacancies - this.students.length;
+		return this.get('vacancies') - this.get('students').length;
+	},
+
+	isSubscribed: function(student) {
+		if (this.get('students') !== null &&
+			_.findWhere(this.get('students'), student.toJSON())) {
+			return true;
+		}
+
+		return false;
 	}
 });
