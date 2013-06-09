@@ -32,7 +32,7 @@ app.HomeView = BaseView.extend({
 	signUp: function(e) {
 		e.preventDefault();
 		//FIXME too jquery like
-		//FIXME use student post
+		//FIXME use students post
 		$.post('/students', $('#signUpForm').serialize(),
 		function(data) {
 			if (data.success) {
@@ -47,7 +47,7 @@ app.HomeView = BaseView.extend({
 	signIn: function(e) {
 		e.preventDefault();
 		//FIXME too jquery like
-		//FIXMR use student get
+		//FIXMR use students get
 		$.post('/signin', $('#signInForm').serialize(),
 		function(data) {
 			if (data.success) {
@@ -128,6 +128,7 @@ app.CourseView = Backbone.View.extend({
 
 	subscribe: function() {
 		var model = this.model;
+		//could be replaced for a subscription model
 		$.post('/subscription', {courseCode:model.get('code')}, function(data){
 			if (data.success) {
 				model.fetch();
