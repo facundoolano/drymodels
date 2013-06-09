@@ -5,11 +5,9 @@ $(function() {
 	Backbone.history.start();
 
 	app.courses = new app.CourseList();
+	app.courses.fetch();
 });
 
-
-//TODO be sure this works to prevent zombie views
-//TODO refactor
 var Workspace = Backbone.Router.extend({
     routes:{
 		'add_course': 'addCourse',

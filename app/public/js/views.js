@@ -80,7 +80,7 @@ app.CoursesView = BaseView.extend({
 	initialize: function() {
 		this.listenTo(app.courses, 'reset', this.addAll);
 		this.listenTo(app.courses, 'add', this.addOne);
-		app.courses.fetch({reset: true});
+		this.addAll();
 	},
 
 	addAll: function() {
@@ -139,26 +139,6 @@ app.CourseView = Backbone.View.extend({
 	}
 });
 
-//may not be needed
-//Individual subscribed student view
-app.StudentView = Backbone.View.extend({
-});
-
 //Indivdiual course the user has subscribed
 app.MyCoursesView = Backbone.View.extend({
 });
-
-
-/********* OLD VIEWS ******************/
-/*
-
-function subscribe(courseCode) {
-	$.post('/subscription', {courseCode:courseCode}, function(data){
-		if (data.success) {
-			//FIXME should only reload the modified course
-			coursesView();
-		} else {
-			$('#messages').text(data.msg);
-		}
-	});
-}*/
