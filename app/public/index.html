@@ -41,6 +41,12 @@
 		{{else}}
 			<p>You are subscribed to this course.</p>
 		{{/if}}
+		<p>The students of this course are:</p>
+		<p><ul>
+		{{#each course.students}}
+			<p>{{ this.firstName }} {{ this.lastName }} ({{ this.id }})</p>
+		{{/each}}
+		</ul></p>
 	</script>
 	<script id="add-course" type="text/x-handlebars-template">
 		<h2>Add Course</h2>
