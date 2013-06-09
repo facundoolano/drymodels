@@ -20,11 +20,15 @@ app.Course = Backbone.Model.extend({
 	idAttribute: "_id",
 
 	remaining: function() {
-		return this.get('vacancies') - this.get('students').length;
+		if (this.get('students')){
+			return this.get('vacancies') - this.get('students').length;
+		}
+		return this.get('vacancies');
 	},
 
 	isSubscribed: function(student) {
-		if (_.findWhere(this.get('students'), student.toJSON())) {
+		if (this.get('students') &&
+			_.findWhere(this.get('students'), student.toJSON())) {
 			return true;
 		}
 

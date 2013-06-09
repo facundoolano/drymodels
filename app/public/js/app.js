@@ -5,7 +5,6 @@ $(function() {
 	Backbone.history.start();
 
 	app.courses = new app.CourseList();
-	app.courses.fetch();
 });
 
 var Workspace = Backbone.Router.extend({

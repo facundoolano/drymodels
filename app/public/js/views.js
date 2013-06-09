@@ -80,7 +80,7 @@ app.CoursesView = BaseView.extend({
 	initialize: function() {
 		this.listenTo(app.courses, 'reset', this.addAll);
 		this.listenTo(app.courses, 'add', this.addOne);
-		this.addAll();
+		app.courses.fetch({reset:true});
 	},
 
 	addAll: function() {
