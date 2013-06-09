@@ -3,6 +3,7 @@ var app = app || {};
 app.Student = Backbone.Model.extend({
 	urlRoot: '/students',
 
+
 	//FIXME duplicated from backend
 	getFullName : function() {
 
@@ -15,13 +16,15 @@ app.Student = Backbone.Model.extend({
 });
 
 app.Course = Backbone.Model.extend({
+	urlRoot: '/courses/',
+	idAttribute: "_id",
+
 	remaining: function() {
 		return this.get('vacancies') - this.get('students').length;
 	},
 
 	isSubscribed: function(student) {
-		if (this.get('students') !== null &&
-			_.findWhere(this.get('students'), student.toJSON())) {
+		if (_.findWhere(this.get('students'), student.toJSON())) {
 			return true;
 		}
 

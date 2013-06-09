@@ -30,6 +30,7 @@ app.post('/signin', routes.signIn);
 
 app.get('/courses', routes.courses);
 app.post('/courses', routes.addCourse);
+app.get('/courses/:id', routes.course);
 app.post('/students', routes.signUp);
 app.post('/subscription', routes.subscribe);
 

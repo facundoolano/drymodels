@@ -32,6 +32,16 @@ exports.courses = function(req, res){
 	});
 };
 
+exports.course = function(req, res) {
+	models.Course.findOne({_id:req.params.id}).populate('students').exec(function(err, results){
+		if (err) {
+			error(res, "Error finding course");
+		} else {
+			return res.json(results);
+		}
+	});
+};
+
 exports.signIn = function(req, res) {
 	models.Student.find({id: req.body.studentId}, function(err, results){
 		if(err){

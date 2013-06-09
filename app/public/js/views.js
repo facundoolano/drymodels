@@ -78,71 +78,78 @@ app.CoursesView = BaseView.extend({
 	template: Handlebars.compile($('#course-list').html()),
 
 	initialize: function() {
-		this.listenTo(app.courses, 'reset', this.render);
+		this.listenTo(app.courses, 'reset', this.addAll);
+		this.listenTo(app.courses, 'add', this.addOne);
 		app.courses.fetch({reset: true});
 	},
 
-	render: function() {
-
-		//converts to object extended with computed properties
-		var courses = app.courses.map(function(course) {
-			var obj = course.toJSON();
-			obj.remaining = course.remaining();
-			obj.canSubscribe = !course.isSubscribed(app.user);
-			console.log("asdasdasd");
-			console.log(obj);
-			return obj;
-		});
-
-		//Should better have individual course views?
-		this.$el.html(this.template({
-			courses: courses,
-			user: app.user.toJSON()
-		}));
+	addAll: function() {
+		this.$('#courses').html('');
+		this.render();
+		app.courses.each(this.addOne, this);
 	},
 
-	subscribe: function() {}
+	addOne: function(course){
+		var view = new app.CourseView({ model: course });
+		$('#courses').append(view.render().el);
+	},
 
+	render: function() {
+		this.$el.html(this.template({
+			user: app.user.toJSON()
+		}));
+	}
 });
 
-//These might not be needed
+/* Individual course view */
+app.CourseView = Backbone.View.extend({
+	tagName: 'li',
+	template: Handlebars.compile($('#course').html()),
 
+	events:{
+		'click button': 'subscribe'
+	},
+
+	initialize: function() {
+		this.listenTo(this.model, 'change', this.render);
+	},
+
+	render: function(){
+
+		var obj = this.model.toJSON();
+		obj.remaining = this.model.remaining();
+		obj.canSubscribe = !this.model.isSubscribed(app.user);
+
+		this.$el.html(this.template({
+			course: obj
+		}));
+		return this;
+	},
+
+	subscribe: function() {
+		var model = this.model;
+		$.post('/subscription', {courseCode:model.get('code')}, function(data){
+			if (data.success) {
+				model.fetch();
+			} else {
+				$('#messages').text(data.msg);
+			}
+		});
+	}
+});
+
+//may not be needed
 //Individual subscribed student view
 app.StudentView = Backbone.View.extend({
-	subscribe: function() {}
 });
 
 //Indivdiual course the user has subscribed
 app.MyCoursesView = Backbone.View.extend({
-	subscribe: function() {}
 });
-
-
 
 
 /********* OLD VIEWS ******************/
 /*
-
-function coursesView(){
-	$.get('/courses', function(data) {
-		$.each(data,function(index, course){
-			//FIXME patching by hand what should be obtained from a model method
-			var subscriptions = 0;
-			if (course.students !== null) {
-				subscriptions = course.students.length;
-			}
-			course.remaining = course.vacancies - subscriptions;
-
-			//FIXME patching by hand what should be obtained from a model method
-			course.canSubscribe = true;
-			if (course.students !== null && _.findWhere(course.students,
-				$("body").data("user"))) {
-				course.canSubscribe = false;
-			}
-		});
-		load('#course-list', {courses: data});
-	});
-}
 
 function subscribe(courseCode) {
 	$.post('/subscription', {courseCode:courseCode}, function(data){

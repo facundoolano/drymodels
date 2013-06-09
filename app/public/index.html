@@ -28,22 +28,19 @@
 		<p>Hi, {{ user.firstName }}. You are currently subscribed to: TODO</p>
 		<h2>Open Courses</h2>
 	  	<a href="#add_course">Add course</a>
-		<ul>
-		{{#each courses}}
-			<li>
-				<p>{{ this.code }} - {{ this.name }}</p>
-				<p>{{ this.professorName }}</p>
-				<p>Vacancies: {{ this.remaining }} of {{ this.vacancies }}</p>
-				{{#if this.canSubscribe}}
-					{{#if this.remaining}}
-						<input type="button" onclick="subscribe({{ this.code }});" value="Subscribe"/>
-					{{/if}}
-				{{else}}
-					<p>You are subscribed to this course.</p>
-				{{/if}}
-			</li>
-		{{/each}}
-		</ul>
+		<ul id="courses"></ul>
+	</script>
+	<script id="course" type="text/x-handlebars-template">
+		<p>{{ course.code }} - {{ course.name }}</p>
+		<p>{{ course.professorName }}</p>
+		<p>Vacancies: {{ course.remaining }} of {{ course.vacancies }}</p>
+		{{#if course.canSubscribe}}
+			{{#if course.remaining}}
+				<button>Subscribe</button>
+			{{/if}}
+		{{else}}
+			<p>You are subscribed to this course.</p>
+		{{/if}}
 	</script>
 	<script id="add-course" type="text/x-handlebars-template">
 		<h2>Add Course</h2>
